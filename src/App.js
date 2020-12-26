@@ -3,10 +3,11 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Page from './components/Page';
 import TariffList from './pages/TariffList/index';
 import Tariff from './pages/Tariff/index';
+import {connect} from "react-redux";
 import './styles/base.scss';
 
-function App() {
-
+function App(props) {
+  const Modal = props.modal;
   const getPage = (routeProps, Component) => (
     <Page>
       <Component/>
@@ -21,8 +22,19 @@ function App() {
           <Route path="/:id" render={p => getPage(p, Tariff)}/>
         </Switch>
       </BrowserRouter>
+      { props.modalIsOpen &&
+        <Modal/>
+      }
+
     </div>
   );
 }
 
-export default App;
+const mapStateToProps=function(store) {
+  return {
+    modalIsOpen: store.modalWindow.isOpen,
+    modal: store.modalWindow.modal,
+  }
+}
+
+export default connect(mapStateToProps)(App);

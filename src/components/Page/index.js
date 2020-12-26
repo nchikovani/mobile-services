@@ -5,7 +5,7 @@ function Page(props) {
   return (
     <React.Fragment>
       <header className="header">
-        <h1 className="header__title">Мобильный оператор</h1>
+        <h1 className="header__title">Мобильные услуги</h1>
       </header>
       <div className="page-wrapper">
         {props.children}

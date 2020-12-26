@@ -1,12 +1,15 @@
 import React from 'react';
 import Card from '../../components/Card';
 import TariffCard from "../../components/TariffCard";
+import CreateTariff from "../../components/ModalWindow/CreateTariff";
 import './style.scss';
+import {openModal} from "../../actions";
+import store from '../../store';
 
 
 function TariffList() {
   const arr=[0, 1, 2];
-  const newTariff = ()=>{ console.log('преветь')};
+  const newTariff = ()=>{store.dispatch(openModal(CreateTariff))};
   return (
     <div className="tariff-list">
       <Card
