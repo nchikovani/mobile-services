@@ -1,8 +1,8 @@
 import React from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Page from './components/Page';
-import TariffList from './pages/TariffList';
-import Tariff from './pages/Tariff';
+import TariffList from './pages/TariffList/index';
+import Tariff from './pages/Tariff/index';
 import './styles/base.scss';
 
 function App() {
