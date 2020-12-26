@@ -2,13 +2,43 @@ import React from 'react';
 import {useState} from 'react';
 import './style.scss';
 import ModalWindow from '../index';
+import store from "../../../store";
+import {closeModal} from "../../../actions";
 
 function CreateTariff() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [cost, setCost] = useState('');
-  const createTariff = () => {
 
+  const createTariff = () => {
+    if (isNaN(cost)) {
+      alert("Неверный формат стоимости.")
+      return;
+    }
+    fetch('/tariff/create',{
+      method: "POST",
+      body:  JSON.stringify({
+        name,
+        description,
+        cost,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      }})
+      .then(res => {
+        res.json().then(body => {
+          if (body.message) {
+            alert(body.message);
+          } else if (body.tariff) {
+            console.log(body.tariff);
+          }
+          store.dispatch(closeModal());
+        });
+      })
+      .catch(err => {
+        alert(err);
+        store.dispatch(closeModal());
+      });
   }
   return (
     <ModalWindow

@@ -2,15 +2,15 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const tariffRouter = require('./routes/tariff');
+// const MongoClient = require('mongodb').MongoClient;
+
 const app = express();
-// const Users = require('./models/Users');
 
 app.use(express.static(path.join(__dirname, '../build')));
 app.use(bodyParser.json({limit: '10mb', extended: true}));
 
-// const uri = "mongodb+srv://admin:admin@cluster0.vr7at.mongodb.net/reporting?retryWrites=true&w=majority";
-// const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlParser: true });
-const uri = "mongodb://localhost:27017/";
+const uri = "mongodb+srv://admin:admin@cluster0.vr7at.mongodb.net/mobile-services?retryWrites=true&w=majority";
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true}, function(err){
   if(err) return console.log(err);
   app.listen(process.env.PORT || 8080, function(){
@@ -18,9 +18,7 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true}, functi
   });
 });
 
-// app.use('/admin', adminRouter);
-// app.use('/user', userRouter);
-// app.use('/', indexRouter);
+app.use('/tariff', tariffRouter);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../build", "index.html"));

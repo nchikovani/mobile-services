@@ -6,28 +6,57 @@ import Tariff from './pages/Tariff/index';
 import {connect} from "react-redux";
 import './styles/base.scss';
 
-function App(props) {
-  const Modal = props.modal;
-  const getPage = (routeProps, Component) => (
-    <Page>
-      <Component/>
-    </Page>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/" render={p => getPage(p, TariffList)}/>
-          <Route path="/:id" render={p => getPage(p, Tariff)}/>
-        </Switch>
-      </BrowserRouter>
-      { props.modalIsOpen &&
+  componentDidMount() {
+    fetch('/tariff/get',{
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+      }})
+      .then(res => {
+        res.json().then(body => {
+          if (body.message) {
+            alert(body.message);
+          } else if (body.tariffs) {
+            console.log(body.tariffs);
+          }
+        });
+      })
+      .catch(err => {
+        alert(err);
+      });
+  }
+
+  getPage(routeProps, Component) {
+    return (
+      <Page>
+        <Component/>
+      </Page>
+    );
+  }
+  render() {
+    const Modal = this.props.modal;
+
+    return (
+      <div className="App">
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/" render={p => this.getPage(p, TariffList)}/>
+            <Route path="/:id" render={p => this.getPage(p, Tariff)}/>
+          </Switch>
+        </BrowserRouter>
+        { this.props.modalIsOpen &&
         <Modal/>
-      }
+        }
 
-    </div>
-  );
+      </div>
+    );
+  }
+
 }
 
 const mapStateToProps=function(store) {
