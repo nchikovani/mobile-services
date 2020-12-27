@@ -2,42 +2,20 @@ import React from 'react';
 import store from "../../store";
 import {connect} from "react-redux";
 import './style.scss';
-import {setTariffById} from "../../actions";
+import {openModal, setTariff} from "../../actions";
+import AddServices from '../../components/ModalWindow/AddServices';
 
 class Tariff extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isEdited: false,
-      services: null,
       name: '',
       description: '',
       cost: '',
     };
     this.changeEdited = this.changeEdited.bind(this);
     this.saveChanges = this.saveChanges.bind(this);
-  }
-
-  componentDidMount() {
-    // fetch('/service/get',{
-    //   method: "GET",
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   }})
-    //   .then(res => {
-    //     res.json().then(body => {
-    //       if (body.message) {
-    //         alert(body.message);
-    //       } else if (body.services) {
-    //         this.setState({
-    //           services: body.services,
-    //         })
-    //       }
-    //     });
-    //   })
-    //   .catch(err => {
-    //     alert(err);
-    //   });
   }
 
   changeEdited() {
@@ -83,7 +61,7 @@ class Tariff extends React.Component {
           if (body.message) {
             alert(body.message);
           } else if (body.tariff) {
-            store.dispatch(setTariffById(id, body.tariff));
+            store.dispatch(setTariff(body.tariff));
             this.changeEdited();
           }
         });
@@ -93,9 +71,19 @@ class Tariff extends React.Component {
       });
   }
 
+  sort(a, b) {
+    if (a.name > b.name) {
+      return 1;
+    }
+    if (a.name < b.name) {
+      return -1;
+    }
+    return 0;
+  }
+
   render() {
 
-    if (!this.props.tariff) return null;
+    if (!this.props.tariff.activeServices) return null;
     return (
       <div className="tariff-page">
         <div className="tariff-page__buttons-group">
@@ -108,7 +96,10 @@ class Tariff extends React.Component {
               "Просмотр"  : "Редактирование"
             }
           </button>
-          <button className="button">Добавить услуги</button>
+          <button
+            className="button"
+            onClick={() => store.dispatch(openModal(AddServices, {id: this.props.tariff._id}))}
+          >Изменить услуги</button>
         </div>
         {
           this.state.isEdited ?
@@ -151,16 +142,21 @@ class Tariff extends React.Component {
               </span>
             </div>
         }
-        <h3 className="tariff-page__active-services-title">Активные услуги:</h3>
-        <ul className="tariff-page__active-services">
-          {
-            this.props.tariff.activeServices.map(service => (
-              <li>
-                service
-              </li>
-            ))
-          }
-        </ul>
+        <div className="tariff-page__active-services">
+          <h3 className="tariff-page__active-services-title">Активные услуги:</h3>
+          <ul>
+            {
+              this.props.tariff.activeServices.sort(this.sort).map(service => (
+                <li
+                  key={service._id}
+                >
+                  {service.name}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
       </div>
     );
   }
@@ -168,9 +164,20 @@ class Tariff extends React.Component {
 }
 
 const mapStateToProps = function(store, props) {
+  const tariff = {...store.tariffs.find((tariff) => tariff._id === props.routeProps.match.params.id)};
+  if (tariff.activeServices) {
+    const activeServices = tariff.activeServices;
+    tariff.activeServices = [];
+    activeServices.forEach((serviceId) => {
+      const service = store.services.find((service) => service._id === serviceId);
+      if (service) {
+        tariff.activeServices.push(service);
+      }
+    });
+  }
 
   return {
-    tariff: store.tariffs.find((tariff) => tariff._id === props.routeProps.match.params.id)
+    tariff,
   }
 }
 

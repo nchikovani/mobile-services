@@ -9,7 +9,15 @@ import store from '../../store';
 
 
 function TariffList(props) {
-
+  const sort = (a, b) => {
+    if (a.name > b.name) {
+      return 1;
+    }
+    if (a.name < b.name) {
+      return -1;
+    }
+    return 0;
+  };
   return (
     <div className="tariff-list">
       <Card
@@ -20,7 +28,7 @@ function TariffList(props) {
         </div>
       </Card>
       {
-        props.tariffs.map((tariff)=> (
+        props.tariffs.sort(sort).map((tariff)=> (
           <TariffCard
             tariff={tariff}
             key={tariff._id}

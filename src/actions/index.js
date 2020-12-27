@@ -1,7 +1,8 @@
-export function openModal(modal) {
+export function openModal(modal, props) {
     return {
         type: 'OPEN_MODAL',
         modal,
+        props,
     }
 }
 
@@ -25,10 +26,16 @@ export function addTariff(tariff) {
     }
 }
 
-export function setTariffById(id, tariff) {
+export function setTariff(tariff) {
     return {
         type: "SET_TARIFF",
-        id,
         tariff,
+    }
+}
+
+export function setServices(services) {
+    return {
+        type: "SET_SERVICES",
+        services,
     }
 }

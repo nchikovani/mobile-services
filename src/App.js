@@ -5,7 +5,7 @@ import TariffList from './pages/TariffList/index';
 import Tariff from './pages/Tariff/index';
 import {connect} from "react-redux";
 import store from "./store";
-import {setTariffs} from "./actions";
+import {setServices, setTariffs} from "./actions";
 import './styles/base.scss';
 
 class App extends React.Component {
@@ -28,6 +28,24 @@ class App extends React.Component {
       .catch(err => {
         alert(err);
       });
+
+    fetch('/service/get',{
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+      }})
+      .then(res => {
+        res.json().then(body => {
+          if (body.message) {
+            alert(body.message);
+          } else if (body.services) {
+            store.dispatch(setServices(body.services));
+          }
+        });
+      })
+      .catch(err => {
+        alert(err);
+      });
   }
 
   getPage(routeProps, Component) {
@@ -41,6 +59,7 @@ class App extends React.Component {
   }
   render() {
     const Modal = this.props.modal;
+    const modalProps = this.props.modalProps;
 
     return (
       <div className="App">
@@ -51,19 +70,21 @@ class App extends React.Component {
           </Switch>
         </BrowserRouter>
         { this.props.modalIsOpen &&
-        <Modal/>
+        <Modal
+          {...modalProps}
+        />
         }
 
       </div>
     );
   }
-
 }
 
 const mapStateToProps=function(store) {
   return {
     modalIsOpen: store.modalWindow.isOpen,
     modal: store.modalWindow.modal,
+    modalProps: store.modalWindow.props,
   }
 }
 

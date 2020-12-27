@@ -1,6 +1,7 @@
 const initial = {
 	isOpen: false,
   modal: null,
+  props: {}
 }
 
 function modalWindow(state=initial, action) {
@@ -9,11 +10,13 @@ function modalWindow(state=initial, action) {
       return {
       	isOpen: true,
         modal: action.modal,
+        props: action.props,
       };
     case 'CLOSE_MODAL':
       return {
       	isOpen: false,
         modal: null,
+        props: {},
       };
     default:
       return state;

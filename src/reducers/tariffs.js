@@ -10,7 +10,7 @@ function tariffs(state=initial, action) {
       newState.push(action.tariff);
       return newState;
     case 'SET_TARIFF':
-      newState = state.filter((tariff) => tariff._id !== action.id);
+      newState = state.filter((tariff) => tariff._id !== action.tariff._id);
       newState.push(action.tariff);
       return newState;
     default:

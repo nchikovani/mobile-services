@@ -57,6 +57,23 @@ router.post('/edit', function(req, res){
   });
 });
 
+router.post('/addServices', function(req, res){
+  const {id, services} = req.body;
+  Tariffs.findByIdAndUpdate(id, {activeServices: services}, function (err) {
+    if (err) {
+      res.json({message: err.name});
+    }else {
+      Tariffs.findById(id).then(tariff => {
+        return res.json({tariff: tariff});
+      }, error=> {
+        res.json({message: error.name});
+      });
+    }
+  }, error=> {
+    res.json({message: error.name});
+  });
+});
+
 
 
 module.exports = router;

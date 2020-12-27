@@ -31,7 +31,6 @@ function CreateTariff() {
           if (body.message) {
             alert(body.message);
           } else if (body.tariff) {
-            console.log(body.tariff);
             store.dispatch(addTariff(body.tariff));
           }
           store.dispatch(closeModal());
