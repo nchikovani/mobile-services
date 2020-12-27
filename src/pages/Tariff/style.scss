@@ -1,0 +1,42 @@
+@import '../../styles/vars';
+
+.tariff-page__buttons-group {
+  margin-bottom: 25px;
+  .button {
+    color: $link-color;
+    width: 170px;
+    text-align: left;
+  }
+}
+
+.tariff-page__name {
+  font-size: 1.5em;
+}
+
+.tariff-page__view {
+  width: 400px;
+  margin: 0 auto 50px;
+  & > * {
+    margin-bottom: 20px;
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+}
+.tariff-page__active-services-title {
+  font-weight: 500;
+}
+
+.tariff-page__edit {
+  margin: 0 auto 50px;
+  width: 400px;
+  &> *{
+    display: block;
+    margin-bottom: 20px;
+    resize: none;
+    width: 100%;
+  }
+  .button {
+    color: $link-color;
+  }
+}

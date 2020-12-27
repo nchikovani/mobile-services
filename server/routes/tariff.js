@@ -27,7 +27,6 @@ router.post('/create', function(req, res){
 
 router.delete('/delete', function(req, res){
   const {id} = req.body;
-  console.log(id);
   Tariffs.deleteOne({ _id: id }, function (err) {
     if (err) {
       res.json({message: err.name});
@@ -42,7 +41,20 @@ router.delete('/delete', function(req, res){
 });
 
 router.post('/edit', function(req, res){
-
+  const {id, name, description, cost} = req.body;
+  Tariffs.findByIdAndUpdate(id, {name, description, cost}, function (err) {
+    if (err) {
+      res.json({message: err.name});
+    }else {
+      Tariffs.findById(id).then(tariff => {
+        return res.json({tariff: tariff});
+      }, error=> {
+        res.json({message: error.name});
+      });
+    }
+  }, error=> {
+    res.json({message: error.name});
+  });
 });
 
 

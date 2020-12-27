@@ -17,6 +17,7 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true}, functi
     console.log("Сервер ожидает подключения...");
   });
 });
+mongoose.set('useFindAndModify', false);
 
 app.use('/tariff', tariffRouter);
 

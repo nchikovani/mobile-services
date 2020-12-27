@@ -24,3 +24,11 @@ export function addTariff(tariff) {
         tariff,
     }
 }
+
+export function setTariffById(id, tariff) {
+    return {
+        type: "SET_TARIFF",
+        id,
+        tariff,
+    }
+}
