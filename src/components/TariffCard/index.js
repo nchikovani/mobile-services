@@ -32,9 +32,8 @@ function TariffCard({tariff}) {
   };
   const getDate =(date) => {
     const m = new Date(date.toString());
-    return m.getUTCFullYear() +"/"+ (m.getUTCMonth()+1) +"/"+ m.getUTCDate() + " " + m.getUTCHours() + ":" + m.getUTCMinutes();
+    return m.getDate() + "." + (m.getMonth()+1) + "." + m.getFullYear() + " " + m.getHours() + ":" + m.getMinutes();
   }
-  console.log(new Date(tariff.dateOfCreation.toString()));
   return (
     <Card
       onClick={() => history.push(`/${tariff._id}`)}
@@ -45,13 +44,15 @@ function TariffCard({tariff}) {
           <p className="tariff-card__description">{tariff.description}</p>
           <div className="tariff-card__dates">
             <span className="tariff-card__date-creation">Дата создания: {getDate(tariff.dateOfCreation)}</span>
-            <span className="tariff-card__date-change">Дата изменения:  {getDate(tariff.dateOfChange)}</span>
           </div>
         </div>
         <div className="tariff-card__button-group">
           <button
             className="button"
-            onClick={() => deleteTariff(tariff._id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              deleteTariff(tariff._id)
+            }}
           >Удалить</button>
         </div>
       </div>

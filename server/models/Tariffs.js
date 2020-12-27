@@ -8,14 +8,12 @@ const TariffsSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    dateOfChange: {
-        type: Date,
-        default: Date.now,
-    },
     activeServices: {
         type: Array,
         default: [],
     }
 });
+
+
 const Tariffs = mongoose.model('Tariffs', TariffsSchema);
 module.exports = Tariffs;
