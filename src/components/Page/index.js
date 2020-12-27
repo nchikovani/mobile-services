@@ -1,11 +1,20 @@
 import React from 'react';
 import './style.scss';
-function Page(props) {
+import { useHistory } from "react-router-dom";
 
+function Page(props) {
+  const history = useHistory();
   return (
     <React.Fragment>
       <header className="header">
-        <h1 className="header__title">Мобильные услуги</h1>
+        <a href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            history.push('/');
+          }}
+        >
+          <h1 className="header__title">Мобильные услуги</h1>
+        </a>
       </header>
       <div className="page-wrapper">
         {props.children}

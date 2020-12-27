@@ -1,10 +1,13 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import Card from '../Card';
 import './style.scss';
 import store from "../../store";
 import {setTariffs} from "../../actions";
 
+
 function TariffCard({tariff}) {
+  const history = useHistory();
   const deleteTariff = (id) => {
     fetch('/tariff/delete',{
       method: "DELETE",
@@ -29,7 +32,9 @@ function TariffCard({tariff}) {
   };
 
   return (
-    <Card>
+    <Card
+      onClick={() => history.push(`/${tariff._id}`)}
+    >
       <div className="tariff-card">
         <div className="tariff-card__body">
           <h2 className="tariff-card__name">{tariff.name}</h2>

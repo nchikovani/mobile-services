@@ -33,7 +33,9 @@ class App extends React.Component {
   getPage(routeProps, Component) {
     return (
       <Page>
-        <Component/>
+        <Component
+          routeProps={routeProps}
+        />
       </Page>
     );
   }
