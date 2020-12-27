@@ -9,7 +9,7 @@ import store from '../../store';
 
 
 function TariffList(props) {
-  const sort = (a, b) => {
+  const sortFunc = (a, b) => {
     if (a.name > b.name) {
       return 1;
     }
@@ -28,7 +28,7 @@ function TariffList(props) {
         </div>
       </Card>
       {
-        props.tariffs.sort(sort).map((tariff)=> (
+        props.tariffs.sort(sortFunc).map((tariff)=> (
           <TariffCard
             tariff={tariff}
             key={tariff._id}

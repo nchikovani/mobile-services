@@ -70,9 +70,9 @@ class App extends React.Component {
           </Switch>
         </BrowserRouter>
         { this.props.modalIsOpen &&
-        <Modal
-          {...modalProps}
-        />
+          <Modal
+            {...modalProps}
+          />
         }
 
       </div>

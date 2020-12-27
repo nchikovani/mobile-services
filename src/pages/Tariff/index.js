@@ -71,19 +71,20 @@ class Tariff extends React.Component {
       });
   }
 
-  sort(a, b) {
-    if (a.name > b.name) {
-      return 1;
-    }
-    if (a.name < b.name) {
-      return -1;
-    }
-    return 0;
-  }
 
   render() {
 
     if (!this.props.tariff.activeServices) return null;
+
+    const sortFunc = (a, b) => {
+      if (a.name > b.name) {
+        return 1;
+      }
+      if (a.name < b.name) {
+        return -1;
+      }
+      return 0;
+    }
     return (
       <div className="tariff-page">
         <div className="tariff-page__buttons-group">
@@ -146,7 +147,7 @@ class Tariff extends React.Component {
           <h3 className="tariff-page__active-services-title">Активные услуги:</h3>
           <ul>
             {
-              this.props.tariff.activeServices.sort(this.sort).map(service => (
+              this.props.tariff.activeServices.sort(sortFunc).map(service => (
                 <li
                   key={service._id}
                 >
