@@ -4,12 +4,11 @@ import Page from './components/Page';
 import TariffList from './pages/TariffList/index';
 import Tariff from './pages/Tariff/index';
 import {connect} from "react-redux";
+import store from "./store";
+import {setTariffs} from "./actions";
 import './styles/base.scss';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     fetch('/tariff/get',{
@@ -22,7 +21,7 @@ class App extends React.Component {
           if (body.message) {
             alert(body.message);
           } else if (body.tariffs) {
-            console.log(body.tariffs);
+            store.dispatch(setTariffs(body.tariffs));
           }
         });
       })

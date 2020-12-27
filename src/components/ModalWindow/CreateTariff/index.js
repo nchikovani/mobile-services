@@ -4,6 +4,7 @@ import './style.scss';
 import ModalWindow from '../index';
 import store from "../../../store";
 import {closeModal} from "../../../actions";
+import {addTariff} from "../../../actions";
 
 function CreateTariff() {
   const [name, setName] = useState('');
@@ -31,6 +32,7 @@ function CreateTariff() {
             alert(body.message);
           } else if (body.tariff) {
             console.log(body.tariff);
+            store.dispatch(addTariff(body.tariff));
           }
           store.dispatch(closeModal());
         });
@@ -53,10 +55,10 @@ function CreateTariff() {
           value={name}
           onChange={(e)=>setName(e.target.value)}
         />
-        <input
+        <textarea
           className="input"
           placeholder="Описание"
-          type="text"
+          rows="3"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />

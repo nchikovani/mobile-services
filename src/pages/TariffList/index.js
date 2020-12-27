@@ -4,34 +4,37 @@ import TariffCard from "../../components/TariffCard";
 import CreateTariff from "../../components/ModalWindow/CreateTariff";
 import './style.scss';
 import {openModal} from "../../actions";
+import {connect} from "react-redux";
 import store from '../../store';
 
 
-function TariffList() {
-  const arr=[0, 1, 2];
-  const newTariff = ()=>{store.dispatch(openModal(CreateTariff))};
+function TariffList(props) {
+
   return (
     <div className="tariff-list">
       <Card
-        onClick={newTariff}
+        onClick={() => store.dispatch(openModal(CreateTariff))}
       >
         <div className="create-tariff">
           <h2>Cоздать тариф</h2>
         </div>
       </Card>
       {
-        arr.map((tariff)=> (
+        props.tariffs.map((tariff)=> (
           <TariffCard
-            name="Название"
-            description="Описание описание "
-            dateCreation="24.12.2020"
-            dateChange="24.12.2020"
-            id={1}
-            key={tariff}
+            tariff={tariff}
+            key={tariff._id}
           />
         ))
       }
     </div>
   )
 }
-export default TariffList;
+
+const mapStateToProps=function(store) {
+  return {
+    tariffs: store.tariffs
+  }
+}
+
+export default connect(mapStateToProps)(TariffList);
